@@ -55,6 +55,22 @@ export function useProjectDeployments(projectId: string) {
   });
 }
 
+export function useDeployment(id: string) {
+  return useQuery({
+    queryKey: queryKeys.deployments.detail(id),
+    queryFn: () => deploymentService.getById(id),
+    enabled: Boolean(id),
+  });
+}
+
+export function useDeploymentTimeline(id: string) {
+  return useQuery({
+    queryKey: queryKeys.deployments.timeline(id),
+    queryFn: () => deploymentService.getTimeline(id),
+    enabled: Boolean(id),
+  });
+}
+
 export function useBuilds() {
   return useQuery({
     queryKey: queryKeys.builds.all,

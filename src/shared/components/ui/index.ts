@@ -12,3 +12,4 @@ export {
   HealthStatusBadge,
   PipelineStatusBadge,
 } from './StatusBadge';
+export { Timeline, type TimelineEvent, type TimelineEventStatus } from './Timeline';

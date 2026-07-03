@@ -1,3 +1,4 @@
+import type { TimelineEvent } from '@/shared/components/ui/Timeline';
 import type {
   ActivityEvent,
   Alert,
@@ -503,6 +504,41 @@ export const mockDashboardStats: DashboardStats = {
   openAlerts: mockAlerts.filter((a) => a.status === 'open').length,
   avgDeployDurationMs: 420000,
 };
+
+export const mockDeploymentTimelines: Record<string, TimelineEvent[]> = {
+  dpl_01: [
+    { id: 'tl_01', title: 'Deployment queued', timestamp: hoursAgo(3.1), status: 'success' },
+    { id: 'tl_02', title: 'Build started', description: 'Running CI pipeline pip_01', timestamp: hoursAgo(3.05), status: 'success' },
+    { id: 'tl_03', title: 'Tests passed', description: '142 tests, 0 failures', timestamp: hoursAgo(3.02), status: 'success' },
+    { id: 'tl_04', title: 'Deploying to production', description: 'Rolling update to 3 instances', timestamp: hoursAgo(3), status: 'success' },
+    { id: 'tl_05', title: 'Health checks passed', timestamp: hoursAgo(2.95), status: 'success' },
+    { id: 'tl_06', title: 'Deployment completed', description: 'v2.14.3 live on production', timestamp: hoursAgo(2.9), status: 'success' },
+  ],
+  dpl_02: [
+    { id: 'tl_07', title: 'Deployment queued', timestamp: hoursAgo(1.1), status: 'success' },
+    { id: 'tl_08', title: 'Build started', timestamp: hoursAgo(1.05), status: 'success' },
+    { id: 'tl_09', title: 'Tests failed', description: '3 failing tests in MetricsWidget.test.tsx', timestamp: hoursAgo(1), status: 'failed' },
+    { id: 'tl_10', title: 'Deployment aborted', description: 'Build gate failed', timestamp: hoursAgo(0.95), status: 'failed' },
+  ],
+  dpl_03: [
+    { id: 'tl_11', title: 'Deployment queued', timestamp: hoursAgo(0.35), status: 'success' },
+    { id: 'tl_12', title: 'Build in progress', timestamp: hoursAgo(0.32), status: 'success' },
+    { id: 'tl_13', title: 'Integration tests running', description: 'Stage 2 of 3', timestamp: hoursAgo(0.3), status: 'in_progress' },
+  ],
+  dpl_04: [
+    { id: 'tl_14', title: 'Deployment queued', timestamp: hoursAgo(8.2), status: 'success' },
+    { id: 'tl_15', title: 'Security scan passed', timestamp: hoursAgo(8.1), status: 'success' },
+    { id: 'tl_16', title: 'Deployed to production', timestamp: hoursAgo(8), status: 'success' },
+    { id: 'tl_17', title: 'Deployment completed', timestamp: hoursAgo(7.8), status: 'success' },
+  ],
+};
+
+export function getDeploymentTimeline(deploymentId: string): TimelineEvent[] {
+  return mockDeploymentTimelines[deploymentId] ?? [
+    { id: 'tl_default', title: 'Deployment started', timestamp: hoursAgo(1), status: 'success' },
+    { id: 'tl_default_2', title: 'Deployment completed', timestamp: hoursAgo(0.9), status: 'success' },
+  ];
+}
 
 export const MOCK_CREDENTIALS = {
   email: 'alex@devopsmonitor.io',

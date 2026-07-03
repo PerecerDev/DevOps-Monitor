@@ -1,5 +1,6 @@
 import { simulateNetworkDelay } from '@/shared/lib/mockDelay';
 import {
+  getDeploymentTimeline,
   mockActivity,
   mockAlerts,
   mockBuilds,
@@ -19,6 +20,7 @@ import type {
   Pipeline,
   Project,
 } from '@/shared/types';
+import type { TimelineEvent } from '@/shared/components/ui/Timeline';
 
 export const dashboardService = {
   getStats: (): Promise<DashboardStats> => simulateNetworkDelay(mockDashboardStats),
@@ -38,6 +40,8 @@ export const deploymentService = {
     simulateNetworkDelay(mockDeployments.filter((d) => d.projectId === projectId)),
   getById: (id: string): Promise<Deployment | undefined> =>
     simulateNetworkDelay(mockDeployments.find((d) => d.id === id)),
+  getTimeline: (id: string): Promise<TimelineEvent[]> =>
+    simulateNetworkDelay(getDeploymentTimeline(id)),
 };
 
 export const buildService = {

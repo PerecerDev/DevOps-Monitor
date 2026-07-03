@@ -1,12 +1,7 @@
-import { ArrowLeft } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { ArrowLeft, BarChart3 } from 'lucide-react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import {
-  DeploymentStatusBadge,
-  ErrorState,
-  HealthStatusBadge,
-  Skeleton,
-} from '@/shared/components/ui';
+import { Button, DeploymentStatusBadge, ErrorState, HealthStatusBadge, Skeleton } from '@/shared/components/ui';
 import {
   useProject,
   useProjectDeployments,
@@ -15,6 +10,7 @@ import {
 import { formatRelativeTime } from '@/shared/utils';
 
 export function ProjectDetailPage() {
+  const navigate = useNavigate();
   const { projectId = '' } = useParams();
   const projectQuery = useProject(projectId);
   const deploymentsQuery = useProjectDeployments(projectId);
@@ -63,6 +59,15 @@ export function ProjectDetailPage() {
         <Stat label="Metrics" value={`${String(metricsQuery.data?.length ?? 0)} series`} />
       </div>
 
+      <div className="flex flex-wrap gap-3">
+        <Button variant="outline" asChild>
+          <Link to={`/projects/${projectId}/metrics`}>
+            <BarChart3 className="size-4" aria-hidden="true" />
+            View metrics
+          </Link>
+        </Button>
+      </div>
+
       <section>
         <h2 className="mb-4 text-lg font-medium">Recent Deployments</h2>
         {deploymentsQuery.isLoading ? (
@@ -86,7 +91,13 @@ export function ProjectDetailPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {deploymentsQuery.data?.map((d) => (
-                  <tr key={d.id} className="hover:bg-surface-elevated/50">
+                  <tr
+                    key={d.id}
+                    className="cursor-pointer hover:bg-surface-elevated/50"
+                    onClick={() => {
+                      void navigate(`/deployments/${d.id}`);
+                    }}
+                  >
                     <td className="px-4 py-3 font-medium">{d.version}</td>
                     <td className="px-4 py-3 capitalize">{d.environment}</td>
                     <td className="px-4 py-3 text-muted">{formatRelativeTime(d.startedAt)}</td>

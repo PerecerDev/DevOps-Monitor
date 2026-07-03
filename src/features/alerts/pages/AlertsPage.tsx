@@ -1,18 +1,70 @@
+import type { ColumnDef } from '@tanstack/react-table';
+import { createColumnHelper } from '@tanstack/react-table';
+import { useMemo } from 'react';
+
+import { DataTable } from '@/shared/components/tables/DataTable';
 import {
   AlertSeverityBadge,
   AlertStatusBadge,
   ErrorState,
-  Skeleton,
 } from '@/shared/components/ui';
 import { useAlerts, useProjects } from '@/shared/hooks/useQueries';
+import type { Alert } from '@/shared/types';
 import { formatRelativeTime } from '@/shared/utils';
 
+const columnHelper = createColumnHelper<Alert>();
+
 export function AlertsPage() {
-  const { data: alerts, isLoading, isError, refetch } = useAlerts();
+  const { data: alerts = [], isLoading, isError, refetch } = useAlerts();
   const { data: projects } = useProjects();
 
-  const getProjectName = (projectId: string) =>
-    projects?.find((p) => p.id === projectId)?.name ?? projectId;
+  const projectMap = useMemo(
+    () => new Map(projects?.map((p) => [p.id, p.name]) ?? []),
+    [projects],
+  );
+
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor('title', {
+        header: 'Title',
+        cell: (info) => {
+          const row = info.row.original;
+          return (
+            <div>
+              <p className="font-medium">{info.getValue()}</p>
+              {row.description && (
+                <p className="mt-0.5 max-w-md truncate text-xs text-muted">{row.description}</p>
+              )}
+            </div>
+          );
+        },
+      }),
+      columnHelper.accessor('projectId', {
+        header: 'Project',
+        cell: (info) => projectMap.get(info.getValue()) ?? info.getValue(),
+      }),
+      columnHelper.accessor('source', {
+        header: 'Source',
+        cell: (info) => <span className="font-mono text-xs">{info.getValue()}</span>,
+      }),
+      columnHelper.accessor('severity', {
+        header: 'Severity',
+        cell: (info) => <AlertSeverityBadge severity={info.getValue()} />,
+      }),
+      columnHelper.accessor('status', {
+        header: 'Status',
+        cell: (info) => <AlertStatusBadge status={info.getValue()} />,
+      }),
+      columnHelper.accessor('triggeredAt', {
+        header: 'Triggered',
+        cell: (info) => (
+          <span className="text-muted">{formatRelativeTime(info.getValue())}</span>
+        ),
+        sortingFn: 'datetime',
+      }),
+    ],
+    [projectMap],
+  ) as ColumnDef<Alert>[];
 
   if (isError) {
     return <ErrorState onRetry={() => void refetch()} />;
@@ -25,53 +77,14 @@ export function AlertsPage() {
         <p className="mt-1 text-muted">Monitor and manage system alerts across projects</p>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-surface-elevated text-left text-xs text-muted">
-              <th className="px-4 py-3 font-medium">Title</th>
-              <th className="px-4 py-3 font-medium">Project</th>
-              <th className="px-4 py-3 font-medium">Source</th>
-              <th className="px-4 py-3 font-medium">Severity</th>
-              <th className="px-4 py-3 font-medium">Status</th>
-              <th className="px-4 py-3 font-medium">Triggered</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {isLoading
-              ? Array.from({ length: 5 }).map((_, i) => (
-                  <tr key={i}>
-                    <td colSpan={6} className="px-4 py-3">
-                      <Skeleton className="h-6 w-full" />
-                    </td>
-                  </tr>
-                ))
-              : alerts?.map((alert) => (
-                  <tr key={alert.id} className="hover:bg-surface-elevated/50">
-                    <td className="px-4 py-3">
-                      <p className="font-medium">{alert.title}</p>
-                      {alert.description && (
-                        <p className="mt-0.5 max-w-md truncate text-xs text-muted">
-                          {alert.description}
-                        </p>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">{getProjectName(alert.projectId)}</td>
-                    <td className="px-4 py-3 font-mono text-xs">{alert.source}</td>
-                    <td className="px-4 py-3">
-                      <AlertSeverityBadge severity={alert.severity} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <AlertStatusBadge status={alert.status} />
-                    </td>
-                    <td className="px-4 py-3 text-muted">
-                      {formatRelativeTime(alert.triggeredAt)}
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        columns={columns}
+        data={alerts}
+        isLoading={isLoading}
+        searchPlaceholder="Search alerts..."
+        searchColumn="title"
+        emptyMessage="No alerts found"
+      />
     </div>
   );
 }

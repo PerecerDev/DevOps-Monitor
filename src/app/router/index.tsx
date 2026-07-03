@@ -19,6 +19,16 @@ const ProjectDetailPage = lazy(() =>
     default: m.ProjectDetailPage,
   })),
 );
+const DeploymentDetailPage = lazy(() =>
+  import('@/features/deployments/pages/DeploymentDetailPage').then((m) => ({
+    default: m.DeploymentDetailPage,
+  })),
+);
+const ProjectMetricsPage = lazy(() =>
+  import('@/features/metrics/pages/ProjectMetricsPage').then((m) => ({
+    default: m.ProjectMetricsPage,
+  })),
+);
 const DeploymentsPage = lazy(() =>
   import('@/features/deployments/pages/DeploymentsPage').then((m) => ({
     default: m.DeploymentsPage,
@@ -79,7 +89,9 @@ export const router = createBrowserRouter([
           { path: '/dashboard', element: withSuspense(DashboardPage) },
           { path: '/projects', element: withSuspense(ProjectsPage) },
           { path: '/projects/:projectId', element: withSuspense(ProjectDetailPage) },
+          { path: '/projects/:projectId/metrics', element: withSuspense(ProjectMetricsPage) },
           { path: '/deployments', element: withSuspense(DeploymentsPage) },
+          { path: '/deployments/:deploymentId', element: withSuspense(DeploymentDetailPage) },
           { path: '/builds', element: withSuspense(BuildsPage) },
           { path: '/pipelines', element: withSuspense(PipelinesPage) },
           { path: '/alerts', element: withSuspense(AlertsPage) },

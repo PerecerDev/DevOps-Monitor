@@ -8,6 +8,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- TanStack Table `DataTable` wrapper with sorting, filtering, and pagination
+- Reusable `MetricChart` component (area/line variants)
+- `Timeline` component for deployment event streams
+- `PipelineStages` horizontal stage visualization
+- Deployment detail page with metadata and timeline (`/deployments/:id`)
+- Project metrics page with time-series charts (`/projects/:id/metrics`)
+- Refactored Deployments, Builds, and Alerts pages to use DataTable
+
+## [0.2.0] - 2026-07-03
+
+### Added
+
 - Vite + React 19 + TypeScript strict application scaffold
 - Tailwind CSS v4 design tokens (light/dark/system themes)
 - Design system primitives: Button, Badge, Card, Input, StatusBadge, Loading, EmptyState

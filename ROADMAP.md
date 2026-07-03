@@ -14,13 +14,13 @@ DevOps Monitor development roadmap. Status updated as phases complete.
 - [x] CI/CD pipeline
 - [x] Core documentation
 
-## Phase 2 — Data Visualization & Tables
+## Phase 2 — Data Visualization & Tables ✅
 
-- [ ] TanStack Table wrapper with sorting/filtering
-- [ ] Reusable MetricChart component
-- [ ] Project metrics detail page
-- [ ] Deployment detail view with timeline
-- [ ] Pipeline stage visualization improvements
+- [x] TanStack Table wrapper with sorting/filtering
+- [x] Reusable MetricChart component
+- [x] Project metrics detail page
+- [x] Deployment detail view with timeline
+- [x] Pipeline stage visualization improvements
 
 ## Phase 3 — Logs & Search
 

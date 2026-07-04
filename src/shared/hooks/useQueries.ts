@@ -6,10 +6,12 @@ import {
   buildService,
   dashboardService,
   deploymentService,
+  logService,
   metricsService,
   pipelineService,
   projectService,
 } from '@/shared/services/mockServices';
+import { searchService } from '@/shared/services/searchService';
 
 export function useDashboardStats() {
   return useQuery({
@@ -104,5 +106,29 @@ export function useProjectMetrics(projectId: string) {
     queryKey: queryKeys.metrics.byProject(projectId),
     queryFn: () => metricsService.getByProject(projectId),
     enabled: Boolean(projectId),
+  });
+}
+
+export function useLogs() {
+  return useQuery({
+    queryKey: queryKeys.logs.all,
+    queryFn: logService.getAll,
+  });
+}
+
+export function useProjectLogs(projectId: string) {
+  return useQuery({
+    queryKey: queryKeys.logs.byProject(projectId),
+    queryFn: () => logService.getByProject(projectId),
+    enabled: Boolean(projectId),
+  });
+}
+
+export function useGlobalSearch(query: string) {
+  return useQuery({
+    queryKey: queryKeys.search.query(query),
+    queryFn: () => searchService.search(query),
+    enabled: query.length >= 0,
+    staleTime: 1000 * 30,
   });
 }

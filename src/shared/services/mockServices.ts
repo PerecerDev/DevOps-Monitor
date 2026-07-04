@@ -10,12 +10,14 @@ import {
   mockPipelines,
   mockProjects,
 } from '@/shared/mocks/data';
+import { mockLogs } from '@/shared/mocks/logs';
 import type {
   ActivityEvent,
   Alert,
   Build,
   DashboardStats,
   Deployment,
+  LogEntry,
   MetricSeries,
   Pipeline,
   Project,
@@ -65,4 +67,12 @@ export const alertService = {
 export const metricsService = {
   getByProject: (projectId: string): Promise<MetricSeries[]> =>
     simulateNetworkDelay(mockMetrics.filter((m) => m.projectId === projectId)),
+};
+
+export const logService = {
+  getAll: (): Promise<LogEntry[]> => simulateNetworkDelay(mockLogs),
+  getByProject: (projectId: string): Promise<LogEntry[]> =>
+    simulateNetworkDelay(mockLogs.filter((l) => l.projectId === projectId)),
+  getByDeployment: (deploymentId: string): Promise<LogEntry[]> =>
+    simulateNetworkDelay(mockLogs.filter((l) => l.deploymentId === deploymentId)),
 };

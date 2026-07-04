@@ -22,3 +22,5 @@ export type {
   User,
   UserRole,
 } from './domain';
+
+export type { SearchResult, SearchResultType } from './search';

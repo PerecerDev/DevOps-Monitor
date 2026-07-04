@@ -41,6 +41,14 @@ export const queryKeys = {
   metrics: {
     byProject: (projectId: string) => ['metrics', 'project', projectId] as const,
   },
+  logs: {
+    all: ['logs'] as const,
+    byProject: (projectId: string) => ['logs', 'project', projectId] as const,
+    byDeployment: (deploymentId: string) => ['logs', 'deployment', deploymentId] as const,
+  },
+  search: {
+    query: (q: string) => ['search', q] as const,
+  },
   auth: {
     session: ['auth', 'session'] as const,
   },

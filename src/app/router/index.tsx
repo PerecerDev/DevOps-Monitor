@@ -40,6 +40,9 @@ const BuildsPage = lazy(() =>
 const PipelinesPage = lazy(() =>
   import('@/features/pipelines/pages/PipelinesPage').then((m) => ({ default: m.PipelinesPage })),
 );
+const LogsPage = lazy(() =>
+  import('@/features/logs/pages/LogsPage').then((m) => ({ default: m.LogsPage })),
+);
 const AlertsPage = lazy(() =>
   import('@/features/alerts/pages/AlertsPage').then((m) => ({ default: m.AlertsPage })),
 );
@@ -94,6 +97,7 @@ export const router = createBrowserRouter([
           { path: '/deployments/:deploymentId', element: withSuspense(DeploymentDetailPage) },
           { path: '/builds', element: withSuspense(BuildsPage) },
           { path: '/pipelines', element: withSuspense(PipelinesPage) },
+          { path: '/logs', element: withSuspense(LogsPage) },
           { path: '/alerts', element: withSuspense(AlertsPage) },
           { path: '/activity', element: withSuspense(ActivityPage) },
           { path: '/settings', element: withSuspense(SettingsPage) },

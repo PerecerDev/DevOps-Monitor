@@ -1,4 +1,4 @@
-import { Activity, AlertTriangle, Box, GitBranch, LayoutDashboard, Rocket, Settings, Wrench } from 'lucide-react';
+import { Activity, AlertTriangle, Box, FileText, GitBranch, LayoutDashboard, Rocket, Settings, Wrench } from 'lucide-react';
 
 export interface NavItem {
   label: string;
@@ -13,6 +13,7 @@ export const mainNavItems: NavItem[] = [
   { label: 'Deployments', href: '/deployments', icon: Rocket },
   { label: 'Builds', href: '/builds', icon: Wrench },
   { label: 'Pipelines', href: '/pipelines', icon: GitBranch },
+  { label: 'Logs', href: '/logs', icon: FileText },
   { label: 'Alerts', href: '/alerts', icon: AlertTriangle },
   { label: 'Activity', href: '/activity', icon: Activity },
 ];

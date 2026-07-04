@@ -8,6 +8,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Virtualized `LogViewer` with TanStack Virtual (800 mock entries)
+- Log level filter chips and message/source search
+- Logs page at `/logs` with project and highlight query params
+- Global `CommandPalette` (⌘K / Ctrl+K) powered by cmdk
+- Cross-entity search service (projects, deployments, builds, alerts, logs, navigation)
+- `Dialog` primitive for modal overlays
+
+## [0.3.0] - 2026-07-04
+
+### Added
+
 - TanStack Table `DataTable` wrapper with sorting, filtering, and pagination
 - Reusable `MetricChart` component (area/line variants)
 - `Timeline` component for deployment event streams

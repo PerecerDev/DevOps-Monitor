@@ -22,12 +22,12 @@ DevOps Monitor development roadmap. Status updated as phases complete.
 - [x] Deployment detail view with timeline
 - [x] Pipeline stage visualization improvements
 
-## Phase 3 — Logs & Search
+## Phase 3 — Logs & Search ✅
 
-- [ ] Virtualized log viewer
-- [ ] Log level filtering and search
-- [ ] Global command palette (⌘K)
-- [ ] Scoped search across entities
+- [x] Virtualized log viewer
+- [x] Log level filtering and search
+- [x] Global command palette (⌘K)
+- [x] Scoped search across entities
 
 ## Phase 4 — Alerts & Notifications
 
